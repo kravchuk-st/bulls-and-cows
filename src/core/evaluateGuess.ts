@@ -3,8 +3,14 @@ export interface GuessResult {
   readonly cows: number;
 }
 
+const toDigits = (value: string): string[] => [...value.toLowerCase()];
+
 export const evaluateGuess = (secret: string, guess: string): GuessResult => {
-  void secret;
-  void guess;
-  return { bulls: 0, cows: 0 };
+  const secretDigits = toDigits(secret);
+  const guessDigits = toDigits(guess);
+
+  const bulls = guessDigits.filter((digit, index) => digit === secretDigits[index]).length;
+  const common = guessDigits.filter((digit) => secretDigits.includes(digit)).length;
+
+  return { bulls, cows: common - bulls };
 };
