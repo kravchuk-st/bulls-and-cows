@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { GameConfig } from './gameState.js';
-import { addRecord, getLeaderboard, parseRecords, type GameRecord } from './leaderboard.js';
+import { addRecord, getLeaderboard, parseRecords, type GameRecord } from './leaderBoard.js';
 
 const decimal4: GameConfig = { length: 4, base: 10 };
 const hex5: GameConfig = { length: 5, base: 16 };
