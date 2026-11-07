@@ -1,4 +1,5 @@
 import type { GameConfig } from './gameState.js';
+import { MIN_LENGTH } from './gameConfig.js';
 
 export interface GameRecord {
   readonly config: GameConfig;
@@ -7,7 +8,6 @@ export interface GameRecord {
 }
 
 const SUPPORTED_BASES: readonly number[] = [2, 8, 10, 16];
-const MIN_LENGTH = 2;
 
 const isObject = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null;
 

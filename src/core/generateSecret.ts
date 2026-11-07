@@ -1,6 +1,4 @@
-import type { Base } from './createDigitValidator.js';
-
-const ALPHABET = '0123456789abcdef';
+import { ALPHABET, type Base } from './createDigitValidator.js';
 
 const pickUnique = (pool: readonly string[], count: number, random: () => number): string[] => {
   if (count === 0) {
