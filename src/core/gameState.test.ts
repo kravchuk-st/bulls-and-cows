@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addAttempt, isWon, startGame, type GameConfig } from './gameState.js';
+import { addAttempt, hasAttempted, isWon, startGame, type GameConfig } from './gameState.js';
 
 const config: GameConfig = { length: 4, base: 10 };
 
@@ -63,5 +63,44 @@ describe('isWon', () => {
 
   it('is true when the last attempt is all bulls', () => {
     expect(isWon(addAttempt(startGame(config, '1234'), '1234'))).toBe(true);
+  });
+});
+
+describe('hasAttempted', () => {
+  it('is false before any attempt', () => {
+    expect(hasAttempted(startGame(config, '1234'), '5678')).toBe(false);
+  });
+
+  it('is true for a guess that is already in the history', () => {
+    const state = addAttempt(startGame(config, '1234'), '5678');
+
+    expect(hasAttempted(state, '5678')).toBe(true);
+  });
+
+  it('is false for a guess that is not in the history', () => {
+    const state = addAttempt(startGame(config, '1234'), '5678');
+
+    expect(hasAttempted(state, '1567')).toBe(false);
+  });
+
+  it('ignores the case of hex digits', () => {
+    const hexState = addAttempt(startGame({ length: 4, base: 16 }, 'ab3f'), 'cd45');
+
+    expect(hasAttempted(hexState, 'CD45')).toBe(true);
+  });
+});
+
+describe('addAttempt with a repeated guess', () => {
+  it('returns the same state and does not duplicate the history entry', () => {
+    const first = addAttempt(startGame(config, '1234'), '5678');
+
+    expect(addAttempt(first, '5678')).toBe(first);
+    expect(first.attempts).toHaveLength(1);
+  });
+
+  it('treats a hex guess that differs only by case as a repeat', () => {
+    const first = addAttempt(startGame({ length: 4, base: 16 }, 'ab3f'), 'cd45');
+
+    expect(addAttempt(first, 'CD45')).toBe(first);
   });
 });

@@ -23,6 +23,12 @@ export const startGame = (config: GameConfig, secret: string): GameState => ({
   attempts: [],
 });
 
+export const hasAttempted = (state: GameState, guess: string): boolean => {
+  void state;
+  void guess;
+  return false;
+};
+
 export const isWon = (state: GameState): boolean => {
   const lastAttempt = state.attempts.at(-1);
 
