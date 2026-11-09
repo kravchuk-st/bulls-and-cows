@@ -1,6 +1,6 @@
 import { createDigitValidator } from '../core/createDigitValidator.js';
 import { formatDuration } from '../core/formatDuration.js';
-import { addAttempt, isWon, type Attempt, type GameState } from '../core/gameState.js';
+import { addAttempt, hasAttempted, isWon, type Attempt, type GameState } from '../core/gameState.js';
 import { isValidGuess } from '../core/isValidGuess.js';
 import { el } from './dom.js';
 
@@ -30,6 +30,11 @@ export const renderGameScreen = (initialState: GameState, { onWin, onNewGame }: 
   const submit = (): void => {
     if (!isValidGuess(input.value, length, base)) {
       message.textContent = `Enter ${length} different digits of base ${base}`;
+      return;
+    }
+
+    if (hasAttempted(state, input.value)) {
+      message.textContent = 'You already tried this number';
       return;
     }
 
